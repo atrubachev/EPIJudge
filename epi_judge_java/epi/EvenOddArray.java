@@ -18,16 +18,10 @@ public class EvenOddArray {
             if (arr.get(oddIdx) % 2 == 0) {
                 oddIdx++;
             } else {
-                swap(arr, oddIdx, evenIdx);
+                Collections.swap(arr, oddIdx, evenIdx);
                 evenIdx--;
             }
         }
-    }
-
-    private static void swap(List<Integer> arr, int oddIdx, int evenIdx) {
-        int temp = arr.get(oddIdx);
-        arr.set(oddIdx, arr.get(evenIdx));
-        arr.set(evenIdx, temp);
     }
 
     @EpiTest(testDataFile = "even_odd_array.tsv")
