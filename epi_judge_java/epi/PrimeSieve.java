@@ -14,21 +14,16 @@ public class PrimeSieve {
         if (n < 2) return Collections.emptyList();
 
         List<Integer> primes = new ArrayList<>();
-        primes.add(2);
-        for (int i = 3; i <= n; i++) {
-            if ((i % 2 != 0) && isPrime(primes, i)) primes.add(i);
+        boolean[] notPrime = new boolean[n+1];
+
+        for (int i = 2; i <= n; i++) {
+            if (!notPrime[i]) {
+                primes.add(i);
+                for (int j = i + i; j <= n; j += i) notPrime[j] = true;
+            }
         }
 
         return primes;
-    }
-
-    private static boolean isPrime(List<Integer> primes, int n) {
-        for (int i = 0; i < primes.size() && i < Math.sqrt(n); i++) {
-            if (n % primes.get(i) == 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public static void main(String[] args) {
