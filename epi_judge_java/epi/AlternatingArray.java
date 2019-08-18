@@ -7,12 +7,22 @@ import epi.test_framework.TestUtils;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AlternatingArray {
-    public static void rearrange(List<Integer> A) {
-        // TODO - you fill in here.
-        return;
+    /**
+     * Time complexity O(n)
+     * Space complexity O(1)
+     *
+     * Page 54
+     */
+    private static void rearrange(List<Integer> A) {
+        for (int i = 1; i < A.size(); i++) {
+            if (((i % 2 == 0) && A.get(i-1) < A.get(i)) || ((i % 2 == 1) && A.get(i-1) > A.get(i))) {
+                Collections.swap(A, i, i - 1);
+            }
+        }
     }
 
     private static void checkOrder(List<Integer> A) throws TestFailure {

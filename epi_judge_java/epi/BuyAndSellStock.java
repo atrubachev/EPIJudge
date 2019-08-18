@@ -9,6 +9,8 @@ public class BuyAndSellStock {
     /**
      * Time complexity O(n)
      * Space complexity O(1)
+     *
+     * Page 52
      */
     @EpiTest(testDataFile = "buy_and_sell_stock.tsv")
     public static double computeMaxProfit(List<Double> prices) {
