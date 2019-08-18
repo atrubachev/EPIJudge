@@ -14,7 +14,6 @@ public class BuyAndSellStock {
     public static double computeMaxProfit(List<Double> prices) {
         Double maxProfit = 0.0;
         Double minBuy = Double.MAX_VALUE;
-        Double maxSell = Double.MIN_VALUE;
 
         for (Double price : prices) {
             Double profit = price - minBuy;
