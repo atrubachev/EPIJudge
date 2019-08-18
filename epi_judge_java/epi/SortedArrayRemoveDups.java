@@ -4,13 +4,26 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
-import java.util.List;
+import java.util.*;
 
 public class SortedArrayRemoveDups {
-    // Returns the number of valid entries after deletion.
-    public static int deleteDuplicates(List<Integer> A) {
-        // TODO - you fill in here.
-        return 0;
+    /**
+     * Time complexity O(n)
+     * Space complexity O(1)
+     *
+     * @param A is a sorted list of Integers
+     * @return Returns the number of valid entries after deletion.
+     */
+    private static int deleteDuplicates(List<Integer> A) {
+        if (A.isEmpty()) return 0;
+
+        int slow = 1;
+        for (int fast = 1; fast < A.size(); fast++) {
+            if (!A.get(fast).equals(A.get(slow - 1))) {
+                Collections.swap(A, fast, slow++);
+            }
+        }
+        return slow;
     }
 
     @EpiTest(testDataFile = "sorted_array_remove_dups.tsv")
