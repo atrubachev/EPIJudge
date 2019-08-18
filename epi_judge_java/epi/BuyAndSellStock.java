@@ -6,10 +6,23 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class BuyAndSellStock {
+    /**
+     * Time complexity O(n)
+     * Space complexity O(1)
+     */
     @EpiTest(testDataFile = "buy_and_sell_stock.tsv")
     public static double computeMaxProfit(List<Double> prices) {
-        // TODO - you fill in here.
-        return 0.0;
+        Double maxProfit = 0.0;
+        Double minBuy = Double.MAX_VALUE;
+        Double maxSell = Double.MIN_VALUE;
+
+        for (Double price : prices) {
+            Double profit = price - minBuy;
+            maxProfit = Math.max(profit, maxProfit);
+            minBuy = Math.min(price, minBuy);
+        }
+
+        return maxProfit;
     }
 
     public static void main(String[] args) {
