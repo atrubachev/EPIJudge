@@ -7,9 +7,20 @@ import java.util.List;
 
 public class MatrixRotation {
 
-    public static void rotateMatrix(List<List<Integer>> squareMatrix) {
-        // TODO - you fill in here.
-        return;
+    private static void rotateMatrix(List<List<Integer>> squareMatrix) {
+        int n = squareMatrix.size() - 1;
+        for (int i = 0; i < squareMatrix.size() / 2; i++) {
+            for (int j = i; j < n - i; j++) {
+                int t1 = squareMatrix.get(n - j).get(i);
+                int t2 = squareMatrix.get(n - i).get(n - j);
+                int t3 = squareMatrix.get(j).get(n - i);
+                int t4 = squareMatrix.get(i).get(j);
+                squareMatrix.get(i).set(j, t1);
+                squareMatrix.get(n - j).set(i, t2);
+                squareMatrix.get(n - i).set(n - j, t3);
+                squareMatrix.get(j).set(n - i, t4);
+            }
+        }
     }
 
     @EpiTest(testDataFile = "matrix_rotation.tsv")
