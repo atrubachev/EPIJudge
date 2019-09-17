@@ -9,9 +9,34 @@ import java.util.List;
 
 public class ReplaceAndRemove {
 
-    public static int replaceAndRemove(int size, char[] s) {
-        // TODO - you fill in here.
-        return 0;
+    private static int replaceAndRemove(int size, char[] s) {
+        int writeIdx = 0;
+        int aCount = 0;
+        int readIdx = 0;
+
+        for (readIdx = 0; readIdx < size; readIdx++) {
+            if (s[readIdx] != 'b') {
+                s[writeIdx++] = s[readIdx];
+            }
+            if (s[readIdx] == 'a') {
+                aCount++;
+            }
+        }
+
+        int finalSize = writeIdx + aCount;
+        readIdx = writeIdx - 1;
+        writeIdx = finalSize - 1;
+        while (readIdx >= 0) {
+            if (s[readIdx] == 'a') {
+                s[writeIdx--] = 'd';
+                s[writeIdx--] = 'd';
+            } else {
+                s[writeIdx--] = s[readIdx];
+            }
+            readIdx--;
+        }
+
+        return finalSize;
     }
 
     @EpiTest(testDataFile = "replace_and_remove.tsv")
