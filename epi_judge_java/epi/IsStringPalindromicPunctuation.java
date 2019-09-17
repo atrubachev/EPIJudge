@@ -7,7 +7,24 @@ public class IsStringPalindromicPunctuation {
     @EpiTest(testDataFile = "is_string_palindromic_punctuation.tsv")
 
     public static boolean isPalindrome(String s) {
-        // TODO - you fill in here.
+        int left = 0;
+        int right = s.length() - 1;
+
+        while (left < right) {
+            if (!Character.isLetterOrDigit(s.charAt(left))) {
+                left++;
+                continue;
+            }
+            if (!Character.isLetterOrDigit(s.charAt(right))) {
+                right--;
+                continue;
+            }
+
+            if (s.charAt(left++) != s.charAt(right--)) {
+                return false;
+            }
+        }
+
         return true;
     }
 
