@@ -20,7 +20,7 @@ public class IsStringPalindromicPunctuation {
                 continue;
             }
 
-            if (s.charAt(left++) != s.charAt(right--)) {
+            if (Character.toLowerCase(s.charAt(left++)) != Character.toLowerCase(s.charAt(right--))) {
                 return false;
             }
         }

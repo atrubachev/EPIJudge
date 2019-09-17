@@ -5,24 +5,6 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
 public class ReverseWords {
-
-    private static void reverseWordsNaive(char[] input) {
-        int size = input.length;
-        char[] output = new char[size];
-        int begin = 0;
-
-        for (int end = 0; end < size; end++) {
-            if (input[end] == ' ') {
-                while (begin <= end) {
-                    output[size - begin - 1] = input[begin];
-                    begin++;
-                }
-            }
-        }
-
-        System.arraycopy(output, 0, input, 0, size);
-    }
-
     private static void reverseWords(char[] input) {
         int n = input.length;
 
@@ -31,10 +13,13 @@ public class ReverseWords {
         int start = 0;
         int end = 0;
         while (end < n) {
+            while (start < n && input[start] == ' ') {
+                start++;
+            }
             while (end < n && input[end] != ' ') {
                 end++;
             }
-            reverse(input, start, end);
+            reverse(input, start, end - 1);
             end++;
             start = end;
         }
