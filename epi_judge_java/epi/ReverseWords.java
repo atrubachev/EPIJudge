@@ -6,9 +6,46 @@ import epi.test_framework.TimedExecutor;
 
 public class ReverseWords {
 
-    public static void reverseWords(char[] input) {
-        // TODO - you fill in here.
-        return;
+    private static void reverseWordsNaive(char[] input) {
+        int size = input.length;
+        char[] output = new char[size];
+        int begin = 0;
+
+        for (int end = 0; end < size; end++) {
+            if (input[end] == ' ') {
+                while (begin <= end) {
+                    output[size - begin - 1] = input[begin];
+                    begin++;
+                }
+            }
+        }
+
+        System.arraycopy(output, 0, input, 0, size);
+    }
+
+    private static void reverseWords(char[] input) {
+        int n = input.length;
+
+        reverse(input, 0, n - 1);
+
+        int start = 0;
+        int end = 0;
+        while (end < n) {
+            while (end < n && input[end] != ' ') {
+                end++;
+            }
+            reverse(input, start, end);
+            end++;
+            start = end;
+        }
+    }
+
+    private static void reverse(char[] arr, int start, int end) {
+        while (start < end) {
+            char temp = arr[start];
+            arr[start++] = arr[end];
+            arr[end--] = temp;
+        }
     }
 
     @EpiTest(testDataFile = "reverse_words.tsv")
