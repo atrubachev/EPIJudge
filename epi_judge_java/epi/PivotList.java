@@ -11,9 +11,27 @@ import java.util.List;
 
 public class PivotList {
 
-    public static ListNode<Integer> listPivoting(ListNode<Integer> l, int x) {
-        // TODO - you fill in here.
-        return null;
+    public static ListNode<Integer> listPivoting(ListNode<Integer> L, int x) {
+        // less, equal, greater
+        ListNode[] heads = {new ListNode<>(-1, null), new ListNode<>(-1, null), new ListNode<>(-1, null)};
+        ListNode[] tails = {heads[0], heads[1], heads[2]};
+
+        for (ListNode<Integer> iter = L; iter != null; iter = iter.next) {
+            int listPos = 1;
+            if (iter.data < x) {
+                listPos = 0;
+            } else if (iter.data > x) {
+                listPos = 2;
+            }
+            tails[listPos].next = iter;
+            tails[listPos] = iter;
+        }
+
+        tails[2].next = null;
+        tails[1].next = heads[2].next;
+        tails[0].next = heads[1].next;
+
+        return heads[0].next;
     }
 
     public static List<Integer> linkedToList(ListNode<Integer> l) {
