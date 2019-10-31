@@ -5,30 +5,58 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class StackWithMax {
 
     public static class Stack {
+        Deque<Integer> elements = new LinkedList<>();
+        Deque<MaxWithCount> maxElements = new LinkedList<>();
+
         public boolean empty() {
-            // TODO - you fill in here.
-            return true;
+            return elements.isEmpty();
         }
 
         public Integer max() {
-            // TODO - you fill in here.
-            return 0;
+            throwIfEmpty();
+            return maxElements.peek().max;
         }
 
         public Integer pop() {
-            // TODO - you fill in here.
-            return 0;
+            throwIfEmpty();
+            maxElements.peek().count--;
+            if (maxElements.peek().count == 0) {
+                maxElements.pop();
+            }
+            return elements.pop();
         }
 
-        public void push(Integer x) {
-            // TODO - you fill in here.
-            return;
+        public void push(Integer element) {
+            elements.push(element);
+            if (maxElements.isEmpty() || max() < element) {
+                maxElements.push(new MaxWithCount(element, 1));
+            } else {
+                maxElements.peek().count++;
+            }
+        }
+
+        private void throwIfEmpty() {
+            if (elements.isEmpty()) {
+                throw new IllegalStateException("stack is empty");
+            }
+        }
+    }
+
+    private static class MaxWithCount {
+        int max;
+        int count;
+
+        public MaxWithCount(int max, int count) {
+            this.max = max;
+            this.count = count;
         }
     }
 
