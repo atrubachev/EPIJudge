@@ -3,14 +3,24 @@ package epi;
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class SunsetView {
-    public static List<Integer>
-    examineBuildingsWithSunset(Iterator<Integer> sequence) {
-        // TODO - you fill in here.
-        return null;
+    private static List<Integer> examineBuildingsWithSunset(Iterator<Integer> sequence) {
+        Deque<Integer> buildingsWithSunset = new LinkedList<>();
+        Deque<Integer> positionsOfBuildings = new LinkedList<>();
+        int position = -1;
+        while (sequence.hasNext()) {
+            position++;
+            int building = sequence.next();
+            while (!buildingsWithSunset.isEmpty() && buildingsWithSunset.peek() <= building) {
+                buildingsWithSunset.pop();
+                positionsOfBuildings.pop();
+            }
+            buildingsWithSunset.push(building);
+            positionsOfBuildings.push(position);
+        }
+        return new ArrayList<>(positionsOfBuildings);
     }
 
     @EpiTest(testDataFile = "sunset_view.tsv")
