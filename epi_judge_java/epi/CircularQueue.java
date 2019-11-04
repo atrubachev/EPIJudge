@@ -5,32 +5,49 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class CircularQueue {
 
     public static class Queue {
+        private int head = 0, tail = 0, size = 0;
+        private Integer[] elements;
+
         public Queue(int capacity) {
+            this.elements = new Integer[capacity];
         }
 
-        public void enqueue(Integer x) {
-            // TODO - you fill in here.
-            return;
+        public void enqueue(Integer value) {
+            if (size == elements.length) {
+                Collections.rotate(Arrays.asList(elements), -head);
+                head = 0;
+                tail = size;
+                elements = Arrays.copyOf(elements, elements.length * 2);
+            }
+            elements[tail] = value;
+            tail = (tail + 1) % elements.length;
+            size++;
         }
 
         public Integer dequeue() {
-            // TODO - you fill in here.
-            return 0;
+            if (size == 0) {
+                throw new NoSuchElementException();
+            }
+            int value = elements[head];
+            head = (head + 1) % elements.length;
+            size--;
+            return value;
         }
 
         public int size() {
-            // TODO - you fill in here.
-            return 0;
+            return size;
         }
 
         @Override
         public String toString() {
-            // TODO - you fill in here.
             return super.toString();
         }
     }
