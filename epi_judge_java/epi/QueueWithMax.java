@@ -5,23 +5,43 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class QueueWithMax {
-    public void enqueue(Integer x) {
-        // TODO - you fill in here.
-        return;
+    private Deque<Integer> elements;
+    private Deque<Integer> maxElements;
+
+    public QueueWithMax() {
+        elements = new LinkedList<>();
+        maxElements = new LinkedList<>();
+    }
+
+    public void enqueue(Integer value) {
+        elements.addLast(value);
+        while (!maxElements.isEmpty() && maxElements.getFirst().compareTo(value) < 0) {
+            maxElements.removeFirst();
+        }
+        maxElements.addFirst(value);
     }
 
     public Integer dequeue() {
-        // TODO - you fill in here.
-        return 0;
+        if (elements.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        if (elements.getFirst().equals((maxElements.getLast()))) {
+            maxElements.removeLast();
+        }
+        return elements.removeFirst();
     }
 
     public Integer max() {
-        // TODO - you fill in here.
-        return 0;
+        if (elements.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+        return maxElements.getLast();
     }
 
     @EpiUserType(ctorParams = {String.class, int.class})
