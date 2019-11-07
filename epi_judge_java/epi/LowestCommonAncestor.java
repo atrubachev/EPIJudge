@@ -1,17 +1,50 @@
 package epi;
 
-import epi.test_framework.BinaryTreeUtils;
-import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTest;
-import epi.test_framework.TestFailure;
-import epi.test_framework.TimedExecutor;
+import epi.test_framework.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class LowestCommonAncestor {
     public static BinaryTreeNode<Integer> LCA(BinaryTreeNode<Integer> tree,
-                                              BinaryTreeNode<Integer> node0,
-                                              BinaryTreeNode<Integer> node1) {
-        // TODO - you fill in here.
-        return null;
+                                              BinaryTreeNode<Integer> nodeA,
+                                              BinaryTreeNode<Integer> nodeB) {
+        List<BinaryTreeNode<Integer>> pathA = findPath(tree, nodeA);
+        List<BinaryTreeNode<Integer>> pathB = findPath(tree, nodeB);
+
+        int lcaIndex;
+        for (lcaIndex = 0; lcaIndex < Math.min(pathA.size(), pathB.size()); lcaIndex++) {
+            if (!pathA.get(lcaIndex).equals(pathB.get(lcaIndex))) {
+                break;
+            }
+        }
+        return lcaIndex == 0 ? tree : pathA.get(lcaIndex - 1);
+    }
+
+    private static List<BinaryTreeNode<Integer>> findPath(BinaryTreeNode<Integer> tree, BinaryTreeNode<Integer> node) {
+        List<BinaryTreeNode<Integer>> nodes = new ArrayList<>();
+        if (tree == null || node == null) {
+            return nodes;
+        }
+
+        if (tree.equals(node)) {
+            nodes.add(tree);
+            return nodes;
+        }
+
+        for (BinaryTreeNode<Integer> n : Arrays.asList(tree.left, tree.right)) {
+            if (n != null) {
+                List<BinaryTreeNode<Integer>> subtreeNodes = findPath(n, node);
+                if (!subtreeNodes.isEmpty()) {
+                    nodes.add(n);
+                    nodes.addAll(subtreeNodes);
+                    return nodes;
+                }
+            }
+        }
+
+        return nodes;
     }
 
     @EpiTest(testDataFile = "lowest_common_ancestor.tsv")
