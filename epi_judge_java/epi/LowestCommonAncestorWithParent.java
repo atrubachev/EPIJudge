@@ -1,17 +1,26 @@
 package epi;
 
-import epi.test_framework.BinaryTreeUtils;
-import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTest;
-import epi.test_framework.TestFailure;
-import epi.test_framework.TimedExecutor;
+import epi.test_framework.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class LowestCommonAncestorWithParent {
 
-    public static BinaryTree<Integer> LCA(BinaryTree<Integer> node0,
-                                          BinaryTree<Integer> node1) {
-        // TODO - you fill in here.
-        return null;
+    public static BinaryTree<Integer> LCA(BinaryTree<Integer> nodeA,
+                                          BinaryTree<Integer> nodeB) {
+        Set<BinaryTree> seenNodes = new HashSet<>();
+        BinaryTree<Integer> node = nodeA;
+        while (node != null) {
+            seenNodes.add(node);
+            node = node.parent;
+        }
+        node = nodeB;
+        while (node != null && !seenNodes.contains(node)) {
+            node = node.parent;
+        }
+
+        return node;
     }
 
     @EpiTest(testDataFile = "lowest_common_ancestor.tsv")
