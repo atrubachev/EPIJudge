@@ -2,25 +2,41 @@ package epi;
 
 import epi.test_framework.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class LowestCommonAncestorWithParent {
 
     public static BinaryTree<Integer> LCA(BinaryTree<Integer> nodeA,
                                           BinaryTree<Integer> nodeB) {
-        Set<BinaryTree> seenNodes = new HashSet<>();
-        BinaryTree<Integer> node = nodeA;
-        while (node != null) {
-            seenNodes.add(node);
-            node = node.parent;
+        int depthA = depth(nodeA);
+        int depthB = depth(nodeB);
+        if (depthA > depthB) {
+            nodeA = rewindUp(nodeA, depthA - depthB);
         }
-        node = nodeB;
-        while (node != null && !seenNodes.contains(node)) {
-            node = node.parent;
+        if (depthB > depthA) {
+            nodeB = rewindUp(nodeB, depthB - depthA);
+        }
+        while (!nodeA.equals(nodeB)) {
+            nodeA = nodeA.parent;
+            nodeB = nodeB.parent;
         }
 
+        return nodeA;
+    }
+
+    private static BinaryTree<Integer> rewindUp(BinaryTree<Integer> node, int steps) {
+        while (node != null && steps > 0) {
+            node = node.parent;
+            steps--;
+        }
         return node;
+    }
+
+    private static int depth(BinaryTree<Integer> node) {
+        int d = 0;
+        while (node != null) {
+            node = node.parent;
+            d++;
+        }
+        return d;
     }
 
     @EpiTest(testDataFile = "lowest_common_ancestor.tsv")
