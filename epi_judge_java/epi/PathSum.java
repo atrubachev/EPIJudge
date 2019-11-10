@@ -6,8 +6,7 @@ import epi.test_framework.GenericTest;
 public class PathSum {
     @EpiTest(testDataFile = "path_sum.tsv")
 
-    public static boolean hasPathSum(BinaryTreeNode<Integer> tree,
-                                     int remainingWeight) {
+    public static boolean hasPathSum(BinaryTreeNode<Integer> tree, int remainingWeight) {
         if (tree == null) {
             return false;
         }
