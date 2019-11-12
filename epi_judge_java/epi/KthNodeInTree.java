@@ -5,6 +5,8 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
+import java.util.Objects;
+
 public class KthNodeInTree {
     public static class BinaryTreeNode<T> {
         public T data;
@@ -20,14 +22,25 @@ public class KthNodeInTree {
         }
     }
 
-    public static BinaryTreeNode<Integer>
+    private static BinaryTreeNode<Integer>
     findKthNodeBinaryTree(BinaryTreeNode<Integer> tree, int k) {
-        // TODO - you fill in here.
+        BinaryTreeNode<Integer> node = tree;
+        while (Objects.nonNull(node)) {
+            int leftSize = Objects.nonNull(node.left) ? node.left.size : 0;
+            if (leftSize + 1 < k) {
+                k -= (leftSize + 1);
+                node = node.right;
+            } else if (leftSize + 1 == k) {
+                return node;
+            } else {
+                node = node.left;
+            }
+        }
+
         return null;
     }
 
-    public static BinaryTreeNode<Integer>
-    convertToTreeWithSize(BinaryTree<Integer> original) {
+    private static BinaryTreeNode<Integer> convertToTreeWithSize(BinaryTree<Integer> original) {
         if (original == null)
             return null;
         BinaryTreeNode<Integer> left = convertToTreeWithSize(original.left);
