@@ -22,8 +22,7 @@ public class KthNodeInTree {
         }
     }
 
-    private static BinaryTreeNode<Integer>
-    findKthNodeBinaryTree(BinaryTreeNode<Integer> tree, int k) {
+    private static BinaryTreeNode<Integer> findKthNodeBinaryTree(BinaryTreeNode<Integer> tree, int k) {
         BinaryTreeNode<Integer> node = tree;
         while (Objects.nonNull(node)) {
             int leftSize = Objects.nonNull(node.left) ? node.left.size : 0;

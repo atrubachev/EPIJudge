@@ -5,11 +5,30 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
+import java.util.Objects;
+
 public class SuccessorInTree {
 
-    public static BinaryTree<Integer> findSuccessor(BinaryTree<Integer> node) {
-        // TODO - you fill in here.
-        return null;
+    private static BinaryTree<Integer> findSuccessor(BinaryTree<Integer> node) {
+        if (Objects.isNull(node)) {
+            return null;
+        }
+
+        BinaryTree<Integer> iter = node;
+
+        if (Objects.nonNull(iter.right)) {
+            iter = iter.right;
+            while (Objects.nonNull(iter.left)) {
+                iter = iter.left;
+            }
+            return iter;
+        }
+
+        while (Objects.nonNull(iter.parent) && iter.equals(iter.parent.right)) {
+            iter = iter.parent;
+        }
+
+        return iter.parent;
     }
 
     @EpiTest(testDataFile = "successor_in_tree.tsv")
