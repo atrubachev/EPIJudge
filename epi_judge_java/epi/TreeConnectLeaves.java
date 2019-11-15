@@ -6,15 +6,32 @@ import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TreeConnectLeaves {
 
-    public static List<BinaryTreeNode<Integer>>
-    createListOfLeaves(BinaryTreeNode<Integer> tree) {
-        // TODO - you fill in here.
-        return Collections.emptyList();
+    private static List<BinaryTreeNode<Integer>> createListOfLeaves(BinaryTreeNode<Integer> tree) {
+        Deque<BinaryTreeNode<Integer>> nodes = new LinkedList<>();
+        List<BinaryTreeNode<Integer>> result = new ArrayList<>();
+        if (tree != null) {
+            nodes.addFirst(tree);
+        }
+        while (!nodes.isEmpty()) {
+            BinaryTreeNode<Integer> node = nodes.removeFirst();
+            if (node.left == null && node.right == null) {
+                result.add(node);
+            }
+            if (node.right != null) {
+                nodes.addFirst(node.right);
+            }
+            if (node.left != null) {
+                nodes.addFirst(node.left);
+            }
+        }
+
+        return result;
     }
 
     @EpiTest(testDataFile = "tree_connect_leaves.tsv")
