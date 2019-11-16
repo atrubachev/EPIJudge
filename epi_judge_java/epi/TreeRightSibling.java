@@ -5,6 +5,8 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TreeRightSibling {
@@ -18,13 +20,32 @@ public class TreeRightSibling {
         }
     }
 
-    public static void constructRightSibling(BinaryTreeNode<Integer> tree) {
-        // TODO - you fill in here.
-        return;
+    private static void constructRightSibling(BinaryTreeNode<Integer> tree) {
+        Deque<BinaryTreeNode<Integer>> currNodes = new LinkedList<>();
+        if (tree == null) {
+            return;
+        }
+        currNodes.add(tree);
+        while (!currNodes.isEmpty()) {
+            Deque<BinaryTreeNode<Integer>> nextNodes = new LinkedList<>();
+            BinaryTreeNode<Integer> prev = null;
+            while (!currNodes.isEmpty()) {
+                BinaryTreeNode<Integer> curr = currNodes.removeLast();
+                curr.next = prev;
+                prev = curr;
+                if (curr.right != null) {
+                    nextNodes.addFirst(curr.right);
+                }
+                if (curr.left != null) {
+                    nextNodes.addFirst(curr.left);
+                }
+            }
+            currNodes = nextNodes;
+        }
+
     }
 
-    private static BinaryTreeNode<Integer>
-    cloneTree(BinaryTree<Integer> original) {
+    private static BinaryTreeNode<Integer> cloneTree(BinaryTree<Integer> original) {
         if (original == null) {
             return null;
         }
