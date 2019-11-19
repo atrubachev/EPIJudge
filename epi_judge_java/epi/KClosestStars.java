@@ -1,14 +1,8 @@
 package epi;
 
-import epi.test_framework.EpiTest;
-import epi.test_framework.EpiTestComparator;
-import epi.test_framework.EpiTestExpectedType;
-import epi.test_framework.EpiUserType;
-import epi.test_framework.GenericTest;
+import epi.test_framework.*;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiPredicate;
 
 public class KClosestStars {
@@ -23,7 +17,7 @@ public class KClosestStars {
             this.z = z;
         }
 
-        public double distance() {
+        double distance() {
             return Math.sqrt(x * x + y * y + z * z);
         }
 
@@ -38,9 +32,16 @@ public class KClosestStars {
         }
     }
 
-    public static List<Star> findClosestKStars(Iterator<Star> stars, int k) {
-        // TODO - you fill in here.
-        return Collections.emptyList();
+    private static List<Star> findClosestKStars(Iterator<Star> stars, int k) {
+        PriorityQueue<Star> maxHeap = new PriorityQueue<>(k + 1, Collections.reverseOrder());
+        while (stars.hasNext()) {
+            maxHeap.add(stars.next());
+            if (maxHeap.size() == k + 1) {
+                maxHeap.remove();
+            }
+        }
+
+        return new ArrayList<>(maxHeap);
     }
 
     @EpiTest(testDataFile = "k_closest_stars.tsv")
