@@ -11,6 +11,7 @@ public class SearchFirstKey {
     public static int searchFirstOfK(List<Integer> A, int k) {
         int l = 0;
         int h = A.size() - 1;
+        int result = -1;
         while (l <= h) {
             int m = l + (h - l) / 2;
             if (A.get(m) < k) {
@@ -18,20 +19,12 @@ public class SearchFirstKey {
             } else if (A.get(m) > k) {
                 h = m - 1;
             } else {
-                h = m;
-                while (l < h) {
-                    m = l + (h - l) / 2;
-                    if (A.get(m) != k) {
-                        l = m + 1;
-                    } else {
-                        h = m;
-                    }
-                }
-                return l;
+                result = m;
+                h = m - 1;
             }
         }
 
-        return -1;
+        return result;
     }
 
     public static void main(String[] args) {
