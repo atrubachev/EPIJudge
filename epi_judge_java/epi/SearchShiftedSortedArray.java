@@ -9,8 +9,17 @@ public class SearchShiftedSortedArray {
     @EpiTest(testDataFile = "search_shifted_sorted_array.tsv")
 
     public static int searchSmallest(List<Integer> A) {
-        // TODO - you fill in here.
-        return 0;
+        int l = 0;
+        int h = A.size() - 1;
+        while (l < h) {
+            int m = l + (h - l) / 2;
+            if (A.get(m) > A.get(h)) {
+                l = m + 1;
+            } else {
+                h = m;
+            }
+        }
+        return l;
     }
 
     public static void main(String[] args) {
