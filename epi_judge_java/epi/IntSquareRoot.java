@@ -7,8 +7,20 @@ public class IntSquareRoot {
     @EpiTest(testDataFile = "int_square_root.tsv")
 
     public static int squareRoot(int k) {
-        // TODO - you fill in here.
-        return 0;
+        long l = 0;
+        long h = k;
+        long result = l;
+        while (l <= h) {
+            long m = l + ((h - l) / 2);
+            long mPow2 = m * m;
+            if (mPow2 > k) {
+                h = m - 1;
+            } else {
+                result = m;
+                l = m + 1;
+            }
+        }
+        return (int) (result);
     }
 
     public static void main(String[] args) {
