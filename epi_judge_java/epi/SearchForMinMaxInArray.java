@@ -48,8 +48,23 @@ public class SearchForMinMaxInArray {
     @EpiTest(testDataFile = "search_for_min_max_in_array.tsv")
 
     public static MinMax findMinMax(List<Integer> A) {
-        // TODO - you fill in here.
-        return new MinMax(0, 0);
+        if (A.size() < 2) {
+            return new MinMax(A.get(0), A.get(0));
+        }
+
+        MinMax result = MinMax.minMax(A.get(0), A.get(1));
+        for (int i = 2; i + 1 < A.size(); i += 2) {
+            MinMax localMinMax = MinMax.minMax(A.get(i), A.get(i + 1));
+            result.smallest = Math.min(localMinMax.smallest, result.smallest);
+            result.largest = Math.max(localMinMax.largest, result.largest);
+        }
+
+        if (A.size() % 2 != 0) {
+            int last = A.get(A.size() - 1);
+            result = new MinMax(Math.min(result.smallest, last), Math.max(result.largest, last));
+        }
+
+        return result;
     }
 
     public static void main(String[] args) {
