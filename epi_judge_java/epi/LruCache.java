@@ -5,25 +5,32 @@ import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LruCache {
-    LruCache(final int capacity) {
+    private final LinkedHashMap<Integer, Integer> isbnToPrice;
+
+    public LruCache(final int capacity) {
+        this.isbnToPrice = new LinkedHashMap<Integer, Integer>(capacity, 1.0f, true) {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+                return this.size() > capacity;
+            }
+        };
     }
 
-    public Integer lookup(Integer key) {
-        // TODO - you fill in here.
-        return 0;
+    private Integer lookup(Integer key) {
+        return isbnToPrice.getOrDefault(key, -1); // it should return null but tests expect -1
     }
 
-    public void insert(Integer key, Integer value) {
-        // TODO - you fill in here.
-        return;
+    private void insert(Integer key, Integer value) {
+        isbnToPrice.putIfAbsent(key, value);
     }
 
-    public Boolean erase(Object key) {
-        // TODO - you fill in here.
-        return true;
+    private Boolean erase(Object key) {
+        return isbnToPrice.remove(key) != null;
     }
 
     @EpiUserType(ctorParams = {String.class, int.class, int.class})
