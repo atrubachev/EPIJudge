@@ -10,7 +10,7 @@ public class IsStringPermutableToPalindrome {
     @EpiTest(testDataFile = "is_string_permutable_to_palindrome.tsv")
 
     public static boolean canFormPalindrome(String s) {
-        Map<Character, Integer> freq = computeCharacterFres(s);
+        Map<Character, Integer> freq = computeCharacterFreq(s);
         boolean existsOdd = false;
         for (Map.Entry<Character, Integer> chFreq : freq.entrySet()) {
             if (chFreq.getValue() % 2 != 0) {
@@ -23,7 +23,7 @@ public class IsStringPermutableToPalindrome {
         return true;
     }
 
-    private static Map<Character, Integer> computeCharacterFres(String s) {
+    private static Map<Character, Integer> computeCharacterFreq(String s) {
         Map<Character, Integer> freq = new HashMap<>();
         for (Character ch : s.toCharArray()) {
             if (freq.containsKey(ch)) {
