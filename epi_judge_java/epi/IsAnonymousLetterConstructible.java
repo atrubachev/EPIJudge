@@ -12,13 +12,21 @@ public class IsAnonymousLetterConstructible {
     public static boolean isLetterConstructibleFromMagazine(String letterText,
                                                             String magazineText) {
         Map<Character, Integer> letterCharFreq = computeCharFreq(letterText);
-        Map<Character, Integer> magazineCharFreq = computeCharFreq(magazineText);
-        for (Map.Entry<Character, Integer> entry : letterCharFreq.entrySet()) {
-            if (entry.getValue().compareTo(magazineCharFreq.getOrDefault(entry.getKey(), 0)) > 0) {
-                return false;
+        for (Character ch : magazineText.toCharArray()) {
+            if (!letterCharFreq.containsKey(ch)) {
+                continue;
+            }
+            int freq = letterCharFreq.get(ch) - 1;
+            if (freq == 0) {
+                letterCharFreq.remove(ch);
+                if (letterCharFreq.isEmpty()) {
+                    break;
+                }
+            } else {
+                letterCharFreq.put(ch, freq);
             }
         }
-        return true;
+        return letterCharFreq.isEmpty();
     }
 
     private static Map<Character, Integer> computeCharFreq(String s) {
