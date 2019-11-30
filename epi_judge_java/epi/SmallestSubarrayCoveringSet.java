@@ -5,9 +5,7 @@ import epi.test_framework.GenericTest;
 import epi.test_framework.TestFailure;
 import epi.test_framework.TimedExecutor;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class SmallestSubarrayCoveringSet {
 
@@ -16,16 +14,46 @@ public class SmallestSubarrayCoveringSet {
         public Integer start;
         public Integer end;
 
-        public Subarray(Integer start, Integer end) {
+        Subarray(Integer start, Integer end) {
             this.start = start;
             this.end = end;
         }
     }
 
-    public static Subarray findSmallestSubarrayCoveringSet(List<String> paragraph,
-                                                           Set<String> keywords) {
-        // TODO - you fill in here.
-        return new Subarray(0, 0);
+    private static Subarray findSmallestSubarrayCoveringSet(List<String> paragraph, Set<String> keywords) {
+        Map<String, Integer> keywordsToCover = new HashMap<>();
+        for (String keyword : keywords) {
+            keywordsToCover.put(keyword, 1);
+        }
+
+        Subarray result = new Subarray(-1, -1);
+        int remainingToCover = keywords.size();
+        for (int left = 0, right = 0; right < paragraph.size(); right++) {
+            if (keywordsToCover.containsKey(paragraph.get(right))) {
+                int keywordCount = keywordsToCover.get(paragraph.get(right)) - 1;
+                keywordsToCover.put(paragraph.get(right), keywordCount);
+                if (keywordCount >= 0) {
+                    remainingToCover--;
+                }
+            }
+
+            while (remainingToCover == 0) {
+                if ((result.start == -1 && result.end == -1) || (right - left < result.end - result.start)) {
+                    result.start = left;
+                    result.end = right;
+                }
+                if (keywordsToCover.containsKey(paragraph.get(left))) {
+                    int keywordCount = keywordsToCover.get(paragraph.get(left)) + 1;
+                    keywordsToCover.put(paragraph.get(left), keywordCount);
+                    if (keywordCount > 0) {
+                        remainingToCover++;
+                    }
+                }
+                left++;
+            }
+        }
+
+        return result;
     }
 
     @EpiTest(testDataFile = "smallest_subarray_covering_set.tsv")
