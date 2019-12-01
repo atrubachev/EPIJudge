@@ -19,5 +19,4 @@ jobs:
         set -x
         cd epi_judge_java
         git diff --name-only "$GITHUB_BASE_REF..$GITHUB_SHA" | grep java | sed 's,epi_judge_java/epi/,,;s,.java,,' > files_to_test
-        test -s files_to_test || (echo "nothing to test"; exit 0)
-        cat files_to_test | xargs make
+        test -s files_to_test && cat files_to_test | xargs make
