@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/atrubachev/EPIJudge/workflows/CI/badge.svg)](https://github.com/atrubachev/EPIJudge/actions)
+
 # EPI Judge
 
 ## Introduction
