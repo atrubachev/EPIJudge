@@ -1,6 +1,9 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    paths:
+    - 'epi_judge_java/epi/*.java'
 
 jobs:
   build:
@@ -18,7 +21,7 @@ jobs:
       run: |
         set -x
         cd epi_judge_java
-        git diff --name-only "$GITHUB_BASE_REF..$GITHUB_SHA" | grep java | sed 's,epi_judge_java/epi/,,;s,.java,,' > files_to_test
+        git diff-tree --no-commit-id --name-only -r $GITHUB_SHA | grep java | sed 's,epi_judge_java/epi/,,;s,.java,,' > files_to_test
         if [ -s files_to_test ]; then
             cat files_to_test | xargs make
         else
