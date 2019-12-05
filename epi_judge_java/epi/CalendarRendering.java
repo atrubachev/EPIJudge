@@ -4,6 +4,7 @@ import epi.test_framework.EpiTest;
 import epi.test_framework.EpiUserType;
 import epi.test_framework.GenericTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CalendarRendering {
@@ -31,8 +32,30 @@ public class CalendarRendering {
     @EpiTest(testDataFile = "calendar_rendering.tsv")
 
     public static int findMaxSimultaneousEvents(List<Event> A) {
-        // TODO - you fill in here.
-        return 0;
+        List<Integer> starts = new ArrayList<>();
+        List<Integer> finishes = new ArrayList<>();
+
+        for (Event event : A) {
+            starts.add(event.start);
+            finishes.add(event.finish);
+        }
+
+        starts.sort(Integer::compare);
+        finishes.sort(Integer::compare);
+
+        int i = 0, j = 0, max = 0, count = 0;
+        while (i < starts.size() && j < finishes.size()) {
+            if (starts.get(i) <= finishes.get(j)) {
+                count++;
+                i++;
+                max = Math.max(max, count);
+            } else {
+                count--;
+                j++;
+            }
+        }
+
+        return max;
     }
 
     public static void main(String[] args) {
