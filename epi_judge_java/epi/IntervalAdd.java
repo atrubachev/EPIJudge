@@ -43,10 +43,26 @@ public class IntervalAdd {
 
     @EpiTest(testDataFile = "interval_add.tsv")
 
-    public static List<Interval> addInterval(List<Interval> disjointIntervals,
-                                             Interval newInterval) {
-        // TODO - you fill in here.
-        return null;
+    public static List<Interval> addInterval(List<Interval> disjointIntervals, Interval newInterval) {
+        List<Interval> intervals = new ArrayList<>();
+        int i = 0;
+
+        while (i < disjointIntervals.size() && disjointIntervals.get(i).right < newInterval.left) {
+            intervals.add(disjointIntervals.get(i++));
+        }
+
+        while (i < disjointIntervals.size() && newInterval.right >= disjointIntervals.get(i).left) {
+            newInterval = new Interval(
+                    Math.min(disjointIntervals.get(i).left, newInterval.left),
+                    Math.max(disjointIntervals.get(i).right, newInterval.right)
+            );
+            i++;
+        }
+        intervals.add(newInterval);
+
+        intervals.addAll(disjointIntervals.subList(i, disjointIntervals.size()));
+
+        return intervals;
     }
 
     public static void main(String[] args) {
