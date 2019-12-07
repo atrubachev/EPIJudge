@@ -11,19 +11,62 @@ import java.util.List;
 
 public class IntervalsUnion {
 
-    public static class Interval {
+    public static class Interval implements Comparable<Interval> {
         public Endpoint left = new Endpoint();
         public Endpoint right = new Endpoint();
+
+        @Override
+        public String toString() {
+            return "Interval{" +
+                    "left=" + left +
+                    ", right=" + right +
+                    '}';
+        }
 
         private static class Endpoint {
             public boolean isClosed;
             public int val;
         }
+
+        @Override
+        public int compareTo(Interval interval) {
+            if (this.left.val != interval.left.val) {
+                return Integer.compare(this.left.val, interval.left.val);
+            }
+
+            if (this.left.isClosed && !interval.left.isClosed) {
+                return -1;
+            }
+            if (!this.left.isClosed && interval.left.isClosed) {
+                return 1;
+            }
+            return 0;
+        }
+
     }
 
     public static List<Interval> unionOfIntervals(List<Interval> intervals) {
-        // TODO - you fill in here.
-        return Collections.emptyList();
+        List<Interval> result = new ArrayList<>();
+        if (intervals == null || intervals.isEmpty()) {
+            return result;
+        }
+
+        Collections.sort(intervals);
+        Interval curr = intervals.get(0);
+        for (int i = 1; i < intervals.size(); i++) {
+            Interval next = intervals.get(i);
+            if (curr.right.val > next.left.val
+                    || (curr.right.val == next.left.val && (curr.right.isClosed || next.left.isClosed))) {
+                if (curr.right.val < next.right.val || (curr.right.val == next.right.val && next.right.isClosed)) {
+                    curr.right = next.right;
+                }
+            } else {
+                result.add(curr);
+                curr = next;
+            }
+        }
+        result.add(curr);
+        return result;
     }
 
     @EpiUserType(
