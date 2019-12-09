@@ -5,10 +5,17 @@ import epi.test_framework.GenericTest;
 
 public class SearchFirstGreaterValueInBst {
 
-    public static BstNode<Integer> findFirstGreaterThanK(BstNode<Integer> tree,
-                                                         Integer k) {
-        // TODO - you fill in here.
-        return null;
+    public static BstNode<Integer> findFirstGreaterThanK(BstNode<Integer> tree, Integer k) {
+        BstNode<Integer> subtree = tree, first = null;
+        while (subtree != null) {
+            if (subtree.data.compareTo(k) > 0) {
+                first = subtree;
+                subtree = subtree.left;
+            } else {
+                subtree = subtree.right;
+            }
+        }
+        return first;
     }
 
     @EpiTest(testDataFile = "search_first_greater_value_in_bst.tsv")
