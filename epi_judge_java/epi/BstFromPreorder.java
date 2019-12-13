@@ -6,22 +6,26 @@ import epi.test_framework.GenericTest;
 import java.util.List;
 
 public class BstFromPreorder {
-    @EpiTest(testDataFile = "bst_from_preorder.tsv")
+    private static int rootIdx;
 
+    @EpiTest(testDataFile = "bst_from_preorder.tsv")
     public static BstNode<Integer> rebuildBSTFromPreorder(List<Integer> preorderSequence) {
-        return rebuildBst(preorderSequence, 0, preorderSequence.size());
+        rootIdx = 0;
+        return rebuildBst(preorderSequence, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    private static BstNode<Integer> rebuildBst(List<Integer> sequence, int start, int end) {
-        if (start >= end) {
+    private static BstNode<Integer> rebuildBst(List<Integer> sequence, int min, int max) {
+        if (rootIdx >= sequence.size()) {
             return null;
         }
-        Integer root = sequence.get(start);
-        int nextRootStart = start + 1;
-        while (nextRootStart < end && root.compareTo(sequence.get(nextRootStart)) > 0) {
-            nextRootStart++;
+        Integer root = sequence.get(rootIdx);
+        if (root < min || root > max) {
+            return null;
         }
-        return new BstNode<>(root, rebuildBst(sequence, start + 1, nextRootStart), rebuildBst(sequence, nextRootStart, end));
+        rootIdx++;
+        BstNode<Integer> left = rebuildBst(sequence, min, root);
+        BstNode<Integer> right = rebuildBst(sequence, root, max);
+        return new BstNode<>(root, left, right);
     }
 
     public static void main(String[] args) {
