@@ -1,20 +1,22 @@
 package epi;
 
-import epi.test_framework.BinaryTreeUtils;
-import epi.test_framework.EpiTest;
-import epi.test_framework.GenericTest;
-import epi.test_framework.TestFailure;
-import epi.test_framework.TestUtils;
-import epi.test_framework.TimedExecutor;
+import epi.test_framework.*;
 
 import java.util.List;
 
 public class BstFromSortedArray {
 
-    public static BstNode<Integer>
-    buildMinHeightBSTFromSortedArray(List<Integer> A) {
-        // TODO - you fill in here.
-        return null;
+    public static BstNode<Integer> buildMinHeightBSTFromSortedArray(List<Integer> A) {
+        return buildMinHeightBSTFromSortedArray(A, 0, A.size());
+    }
+
+    private static BstNode<Integer> buildMinHeightBSTFromSortedArray(List<Integer> A, int start, int end) {
+        if (start >= end) {
+            return null;
+        }
+        int mid = start + (end - start) / 2;
+        return new BstNode<>(A.get(mid), buildMinHeightBSTFromSortedArray(A, start, mid),
+                buildMinHeightBSTFromSortedArray(A, mid + 1, end));
     }
 
     @EpiTest(testDataFile = "bst_from_sorted_array.tsv")
