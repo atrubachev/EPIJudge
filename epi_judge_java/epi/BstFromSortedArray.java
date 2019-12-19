@@ -20,9 +20,8 @@ public class BstFromSortedArray {
     }
 
     @EpiTest(testDataFile = "bst_from_sorted_array.tsv")
-    public static int
-    buildMinHeightBSTFromSortedArrayWrapper(TimedExecutor executor,
-                                            List<Integer> A) throws Exception {
+    public static int buildMinHeightBSTFromSortedArrayWrapper(TimedExecutor executor,
+                                                              List<Integer> A) throws Exception {
         BstNode<Integer> result =
                 executor.run(() -> buildMinHeightBSTFromSortedArray(A));
 
