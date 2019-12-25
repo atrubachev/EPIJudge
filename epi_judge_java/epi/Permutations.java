@@ -7,7 +7,6 @@ import epi.test_framework.LexicographicalListComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiPredicate;
 
@@ -21,7 +20,7 @@ public class Permutations {
     private static List<List<Integer>> computePermutations(List<Integer> A, int currIdx) {
         List<List<Integer>> result = new ArrayList<>();
         if (currIdx + 1 >= A.size()) {
-            List<Integer> perm = new LinkedList<>();
+            List<Integer> perm = new ArrayList<>();
             perm.add(A.get(currIdx));
             result.add(perm);
             return result;
