@@ -1,21 +1,34 @@
 package epi;
 
 import epi.test_framework.EpiTest;
-import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.GenericTest;
+import epi.test_framework.LexicographicalListComparator;
 import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
 public class EnumerateTrees {
 
-    public static List<BinaryTreeNode<Integer>>
-    generateAllBinaryTrees(int numNodes) {
-        // TODO - you fill in here.
-        return Collections.emptyList();
+    public static List<BinaryTreeNode<Integer>> generateAllBinaryTrees(int numNodes) {
+        List<BinaryTreeNode<Integer>> result = new ArrayList<>();
+        if (numNodes == 0) {
+            result.add(null);
+        }
+
+        for (int numLeftNodes = 0; numLeftNodes < numNodes; numLeftNodes++) {
+            int numRightNodes = numNodes - numLeftNodes - 1;
+            List<BinaryTreeNode<Integer>> leftSubTree = generateAllBinaryTrees(numLeftNodes);
+            List<BinaryTreeNode<Integer>> rightSubTree = generateAllBinaryTrees(numRightNodes);
+            for (BinaryTreeNode<Integer> left : leftSubTree) {
+                for (BinaryTreeNode<Integer> right : rightSubTree) {
+                    result.add(new BinaryTreeNode<>(0, left, right));
+                }
+            }
+        }
+
+        return result;
     }
 
     public static List<Integer> serializeStructure(BinaryTreeNode<Integer> tree) {

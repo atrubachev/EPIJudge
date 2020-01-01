@@ -25,7 +25,7 @@ public class EnumeratePalindromicDecompositions {
         }
         for (int i = offset + 1; i <= s.length(); i++) {
             String elementOfDecomposition = s.substring(offset, i);
-            if (isPolindrom(elementOfDecomposition)) {
+            if (isPalindrome(elementOfDecomposition)) {
                 decomposition.add(elementOfDecomposition);
                 palindromeDecompositions(s, i, decomposition, result);
                 decomposition.remove(decomposition.size() - 1);
@@ -33,7 +33,7 @@ public class EnumeratePalindromicDecompositions {
         }
     }
 
-    private static boolean isPolindrom(String s) {
+    private static boolean isPalindrome(String s) {
         for (int i = 0, j = s.length() - 1; i < j; i++, j--) {
             if (s.charAt(i) != s.charAt(j)) {
                 return false;
