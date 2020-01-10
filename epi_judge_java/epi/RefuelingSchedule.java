@@ -10,12 +10,28 @@ import java.util.List;
 public class RefuelingSchedule {
     private static final int MPG = 20;
 
+    private static class CityAndRemainingGas {
+        int city;
+        int remainingGallons;
+
+        public CityAndRemainingGas(int city, int remainingGallons) {
+            this.city = city;
+            this.remainingGallons = remainingGallons;
+        }
+    }
+
     // gallons[i] is the amount of gas in city i, and distances[i] is the distance
     // city i to the next city.
-    public static int findAmpleCity(List<Integer> gallons,
-                                    List<Integer> distances) {
-        // TODO - you fill in here.
-        return 0;
+    public static int findAmpleCity(List<Integer> gallons, List<Integer> distances) {
+        int remainingGallons = 0;
+        CityAndRemainingGas min = new CityAndRemainingGas(0, 0);
+        for (int i = 1; i < gallons.size(); i++) {
+            remainingGallons += gallons.get(i - 1) - distances.get(i - 1) / MPG;
+            if (remainingGallons < min.remainingGallons) {
+                min = new CityAndRemainingGas(i, remainingGallons);
+            }
+        }
+        return min.city;
     }
 
     @EpiTest(testDataFile = "refueling_schedule.tsv")
