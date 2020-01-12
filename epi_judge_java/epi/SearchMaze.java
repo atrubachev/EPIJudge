@@ -10,6 +10,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class SearchMaze {
+    private static final List<Coordinate> SHIFTS = List.of(new Coordinate(-1, 0), new Coordinate(+1, 0),
+            new Coordinate(0, -1), new Coordinate(0, 1));
+
     @EpiUserType(ctorParams = {int.class, int.class})
 
     public static class Coordinate {
@@ -40,10 +43,39 @@ public class SearchMaze {
 
     public enum Color {WHITE, BLACK}
 
-    public static List<Coordinate> searchMaze(List<List<Color>> maze,
-                                              Coordinate s, Coordinate e) {
-        // TODO - you fill in here.
-        return Collections.emptyList();
+    public static List<Coordinate> searchMaze(List<List<Color>> maze, Coordinate start, Coordinate end) {
+        List<Coordinate> path = new ArrayList<>();
+        maze.get(start.x).set(start.y, Color.BLACK);
+        dfs(maze, start, end, path);
+        Collections.reverse(path);
+        return path;
+    }
+
+    private static boolean dfs(List<List<Color>> maze, Coordinate move, Coordinate end, List<Coordinate> path) {
+        if (move.equals(end)) {
+            path.add(move);
+            return true;
+        }
+
+        for (Coordinate shift : SHIFTS) {
+            Coordinate nextMove = new Coordinate(move.x + shift.x, move.y + shift.y);
+            if (isValidMove(maze, nextMove)) {
+                maze.get(nextMove.x).set(nextMove.y, Color.BLACK);
+                if (dfs(maze, nextMove, end, path)) {
+                    path.add(move);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean isValidMove(List<List<Color>> maze, Coordinate move) {
+        if (move.x >= 0 && move.y >= 0 && move.x < maze.size() && move.y < maze.get(move.x).size() &&
+                maze.get(move.x).get(move.y) == Color.WHITE) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean pathElementIsFeasible(List<List<Integer>> maze,
